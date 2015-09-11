@@ -1,0 +1,36 @@
+# Setup an open WiFi access point with DHCP (block 192.168.42.20 to .254)
+# with a MJPEG webcam at http://192.168.42.1:8081
+
+
+# init rpi with raspi-config
+# set locale/timezone/keyboard layout
+# set pi user password
+# set "enable camera" to yes
+# choose to reboot
+sudo raspi-config
+
+# update Pi Raspbian OS
+sudo apt-get update
+sudo apt-get upgrade -y
+sudo apt-get install -y ipython python-picamera hostapd udhcpd vim motion
+
+# add v4l2 module (Pi camera available at /dev/video0 for motion)
+echo "bcm2835-v4l2" | sudo tee -a /etc/modules
+
+# udhcpd (DHCP server) setup
+sudo cp etc/udhcpd.conf /etc/udhcpd.conf
+sudo cp etc/default/udhcpd /etc/default/udhcpd
+
+# hostapd (WiFi access point daemon) setup
+sudo cp etc/hostapd/hostapd.conf /etc/hostapd/hostapd.conf
+sudo cp etc/default/hostapd /etc/default/hostapd
+
+# motion (webcam daemon) setup
+sudo cp etc/motion/motion.conf /etc/motion/motion.conf
+sudo cp etc/default/motion /etc/default/motion
+
+# setup network (host is at 192.168.42.1)
+sudo cp etc/network/interfaces /etc/network/interfaces
+
+# reboot
+sudo reboot
