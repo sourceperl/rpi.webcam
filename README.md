@@ -1,4 +1,8 @@
-# rpi.webcam
+rpi.webcam
+==========
+
 A Raspberry Pi webcam project (Rpi camera + open WiFi access point)
 
-see setup_rpi.txt
+![](img/rpi_power_bank.jpg)
+
+see [setup_rpi.txt](setup_rpi.txt) for setup the Rpi.
