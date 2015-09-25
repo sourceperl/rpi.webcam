@@ -12,7 +12,7 @@ sudo raspi-config
 # update Pi Raspbian OS
 sudo apt-get update
 sudo apt-get upgrade -y
-sudo apt-get install -y ipython python-picamera hostapd udhcpd vim motion
+sudo apt-get install -y ipython python-picamera hostapd udhcpd vim motion iptables-persistent
 
 # add v4l2 module (Pi camera available at /dev/video0 for motion)
 echo "bcm2835-v4l2" | sudo tee -a /etc/modules
@@ -31,6 +31,10 @@ sudo cp etc/default/motion /etc/default/motion
 
 # setup network (host is at 192.168.42.1)
 sudo cp etc/network/interfaces /etc/network/interfaces
+
+# add iptables rule for map motion port tcp/8081 to tcp/80
+sudo iptables -A PREROUTING -t nat -i wlan0 -p tcp --dport 80 -j REDIRECT --to-port 8081
+sudo service iptables-persistent save
 
 # reboot
 sudo reboot
